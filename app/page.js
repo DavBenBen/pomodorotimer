@@ -7,13 +7,16 @@ import TodoList from "@/component/todolist";
 import TaskMaker from "@/component/taskmaker";
 
 export default function Home() {
-  // Initialize `todos` from localStorage or use an empty array
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem("todos");
-    return savedTodos ? JSON.parse(savedTodos) : [];
-  });
+  const [todos, setTodos] = useState([]); // Initialize with an empty array
+  const [timeMax, setTimeMax] = useState(0.1);
 
-  const [timeMax, setTimeMax] = useState(.1);
+  // Load `todos` from localStorage on the client side
+  useEffect(() => {
+    const savedTodos = localStorage.getItem("todos");
+    if (savedTodos) {
+      setTodos(JSON.parse(savedTodos));
+    }
+  }, []);
 
   // Save `todos` to localStorage whenever it changes
   useEffect(() => {
@@ -48,8 +51,6 @@ export default function Home() {
         />
       </head>
 
-      <button className="rounded-lg w-md "></button>
-
       <div className="flex items-center justify-center h-screen">
         <div className="join w-1/2 h-4/6">
           {/* Left Side */}
@@ -69,6 +70,5 @@ export default function Home() {
         </div>
       </div>
     </>
-    
   );
 }
